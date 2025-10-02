@@ -40,8 +40,13 @@ export class ProductDetailPage {
   }
 
   async expectAddedToCartDialogVisible() {
+    // Wait for dialog to appear
     await this.addedToCartDialog.waitFor({ state: 'visible', timeout: 15000 });
     await expect(this.addedToCartDialog).toBeVisible();
+    
+    // Wait for view cart button to be visible (ensures cart update is complete)
+    await this.viewCartLink.waitFor({ state: 'visible', timeout: 15000 });
+    await expect(this.viewCartLink).toBeVisible();
   }
 
   async goToCart() {
