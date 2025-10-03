@@ -1,9 +1,37 @@
-import { expect, authenticatedTest as test } from '../../fixtures/custom-fixtures';
-import { testProducts } from '../../fixtures/test-data';
+import { expect, test } from '../../fixtures/custom-fixtures';
+import { testProducts, testUsers } from '../../fixtures/test-data';
+import { LoginPage } from '../../page-objects/pages/LoginPage';
+import { BrowserContext, Page } from '@playwright/test';
 
 test.describe('Cart Add and Remove - Feature Tests', () => {
-  // Run tests serially to avoid cart state conflicts
+  // Run tests serially to avoid cart state conflicts and share authentication
   test.describe.configure({ mode: 'serial' });
+
+  let sharedContext: BrowserContext;
+  let sharedPage: Page;
+
+  // Authenticate once before all tests and keep the context alive
+  test.beforeAll(async ({ browser }) => {
+    sharedContext = await browser.newContext();
+    sharedPage = await sharedContext.newPage();
+    const loginPage = new LoginPage(sharedPage);
+    
+    await loginPage.goto();
+    await loginPage.login(testUsers.validUser.username, testUsers.validUser.password);
+    await sharedPage.waitForURL(/\/cwa\/en\/USD\/?$/);
+  });
+
+  // Clean up the shared context after all tests
+  test.afterAll(async () => {
+    await sharedContext?.close();
+  });
+
+  // Override the page fixture to use our shared authenticated page
+  test.use({
+    page: async ({}, use) => {
+      await use(sharedPage);
+    }
+  });
 
   // Helper function to add a product to cart
   async function addProductToCart(
