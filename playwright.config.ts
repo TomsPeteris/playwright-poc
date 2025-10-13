@@ -36,7 +36,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.BASE_URL || 'https://jsapps.c3ntdqbuek-citizenwa1-d1-public.model-t.cc.commerce.ondemand.com',
+    baseURL: process.env.BASE_URL || 'https://jsapps.c3ntdqbuek-citizenwa1-s1-public.model-t.cc.commerce.ondemand.com',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
@@ -44,8 +44,8 @@ export default defineConfig({
     /* Screenshot on failure */
     screenshot: 'only-on-failure',
     
-    /* Video on failure */
-    video: 'retain-on-failure',
+    /* Video for all tests */
+    video: 'on',
     
     /* Action timeout */
     actionTimeout: 15 * 1000,

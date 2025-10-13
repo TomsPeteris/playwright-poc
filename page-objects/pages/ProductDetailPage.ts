@@ -8,6 +8,7 @@ export class ProductDetailPage {
   readonly productName: Locator;
   readonly productPrice: Locator;
   readonly quantityInput: Locator;
+  readonly productCode: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -18,6 +19,7 @@ export class ProductDetailPage {
     this.productName = page.locator('h1').first();
     this.productPrice = page.locator('.price, .cx-price').first();
     this.quantityInput = page.locator('input[type="number"]').first();
+    this.productCode = page.locator('.product-code, .model, .sku').first();
   }
 
   async addToCart() {
@@ -54,5 +56,52 @@ export class ProductDetailPage {
     await this.addedToCartDialog.waitFor({ state: 'visible', timeout: 15000 });
     await this.viewCartLink.waitFor({ state: 'visible', timeout: 15000 });
     await this.viewCartLink.click();
+  }
+
+  async expectProductCode(expectedCode: string) {
+    const codeSelectors = [
+      '.product-code',
+      '.model', 
+      '.sku',
+      '[data-testid="product-code"]',
+      '.product-details .model'
+    ];
+    
+    let foundCode = false;
+    for (const selector of codeSelectors) {
+      const element = this.page.locator(selector);
+      if (await element.isVisible()) {
+        await expect(element).toContainText(expectedCode);
+        foundCode = true;
+        break;
+      }
+    }
+    
+    // If no specific product code element found, check page content
+    if (!foundCode) {
+      await expect(this.page.locator('body')).toContainText(expectedCode);
+    }
+  }
+
+  async getProductCode(): Promise<string> {
+    const codeSelectors = [
+      '.product-code',
+      '.model', 
+      '.sku',
+      '[data-testid="product-code"]',
+      '.product-details .model'
+    ];
+    
+    for (const selector of codeSelectors) {
+      const element = this.page.locator(selector);
+      if (await element.isVisible()) {
+        const text = await element.textContent();
+        if (text) {
+          return text.trim();
+        }
+      }
+    }
+    
+    throw new Error('Product code not found on the page');
   }
 }

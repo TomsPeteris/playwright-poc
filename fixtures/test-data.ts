@@ -24,6 +24,18 @@ export const testProducts = {
     brand: 'BULOVA CLOCKS',
     collection: 'All Clocks',
   },
+  corsoClocks: {
+    code: 'EW2390-50D',
+    brand: 'CITIZEN',
+    collection: 'All Clocks',
+    name: 'Corso',
+  },
+  chandlerClocks: {
+    code: 'AT2372-50E',
+    brand: 'CITIZEN',
+    collection: 'All Clocks',
+    name: 'Chandler',
+  },
 };
 
 export const checkoutData = {

@@ -27,6 +27,15 @@ export class HomePage {
     await this.searchInput.fill(query);
   }
 
+  async searchProductAndSubmit(query: string) {
+    await this.searchInput.waitFor({ state: 'visible' });
+    await this.searchInput.click();
+    await this.searchInput.fill(query);
+    await this.searchInput.press('Enter');
+    // Wait for navigation to search results
+    await this.page.waitForURL(/\/search\//, { timeout: 15000 });
+  }
+
   async selectSearchSuggestion(productName: string) {
     await this.page.getByRole('option', { name: new RegExp(productName, 'i') }).click();
   }
