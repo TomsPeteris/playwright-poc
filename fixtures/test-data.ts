@@ -20,7 +20,7 @@ export const testProducts = {
     collection: 'undefined TSUYOSA',
   },
   bulovaAllClocks: {
-    code: 'B1872',
+    code: '36A103',
     brand: 'BULOVA CLOCKS',
     collection: 'All Clocks',
   },
@@ -37,6 +37,19 @@ export const testProducts = {
     name: 'Chandler',
   },
 };
+
+export const quickOrderProducts = [
+  'BU2020-02A',
+  'JY8035-04E',
+  'EW2390-50D',
+  'EG3100-09E',
+  '43A144',
+  'BH3002-62E',
+  'AW0060-54H',
+  'EU6070-51D',
+  'BM6010-55A',
+  'FC-303MN5B4',
+];
 
 export const checkoutData = {
   orderCancelDate: {

@@ -5,8 +5,9 @@ import { HomePage } from '../page-objects/pages/HomePage';
 import { LoginPage } from '../page-objects/pages/LoginPage';
 import { ProductDetailPage } from '../page-objects/pages/ProductDetailPage';
 import { ProductListPage } from '../page-objects/pages/ProductListPage';
-import { SearchResultsPage } from '../page-objects/pages/SearchResultsPage';
+import { QuickOrderPage } from '../page-objects/pages/QuickOrderPage';
 import { SavedCartPage } from '../page-objects/pages/SavedCartPage';
+import { SearchResultsPage } from '../page-objects/pages/SearchResultsPage';
 import { testUsers } from './test-data';
 
 type PageObjects = {
@@ -18,6 +19,7 @@ type PageObjects = {
   checkoutPage: CheckoutPage;
   searchResultsPage: SearchResultsPage;
   savedCartPage: SavedCartPage;
+  quickOrderPage: QuickOrderPage;
 };
 
 // Extend base test with page objects
@@ -45,6 +47,9 @@ export const test = base.extend<PageObjects>({
   },
   savedCartPage: async ({ page }, use) => {
     await use(new SavedCartPage(page));
+  },
+  quickOrderPage: async ({ page }, use) => {
+    await use(new QuickOrderPage(page));
   },
 });
 
