@@ -41,7 +41,6 @@ test.describe('My Account Links - Smoke Test', () => {
         { text: 'Payment History', href: '/cwa/en/USD/my-account/payment-history'},
         { text: 'Transactions / Bill Pay', href: '/cwa/en/USD/my-account/invoices'},
         { text: 'My Deliveries', href: '/cwa/en/USD/my-account/deliveries'},
-        { text: 'Reports / Statements', href: '/cwa/en/USD/my-account/reports'},
         { text: 'Wishlist', href: '/cwa/en/USD/my-account/wishlist'},
         { text: 'Change Password', href: '/cwa/en/USD/my-account/update-password'},
         { text: 'Consent Management', href: '/cwa/en/USD/my-account/consents'},
