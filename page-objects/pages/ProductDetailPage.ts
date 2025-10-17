@@ -9,6 +9,7 @@ export class ProductDetailPage {
   readonly productPrice: Locator;
   readonly quantityInput: Locator;
   readonly productCode: Locator;
+  readonly errorMessage: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -20,6 +21,7 @@ export class ProductDetailPage {
     this.productPrice = page.locator('.price, .cx-price').first();
     this.quantityInput = page.locator('input[type="number"]').first();
     this.productCode = page.locator('.product-code, .model, .sku').first();
+    this.errorMessage = page.locator('.alert.alert-danger');
   }
 
   async addToCart() {
@@ -103,5 +105,10 @@ export class ProductDetailPage {
     }
     
     throw new Error('Product code not found on the page');
+  }
+
+  async expectErrorMessage(expectedText: string) {
+    await expect(this.errorMessage).toBeVisible({ timeout: 10000 });
+    await expect(this.errorMessage).toContainText(expectedText);
   }
 }

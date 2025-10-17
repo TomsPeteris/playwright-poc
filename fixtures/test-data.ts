@@ -24,6 +24,11 @@ export const testProducts = {
     brand: 'BULOVA CLOCKS',
     collection: 'All Clocks',
   },
+  luxuryProduct: {
+    code: 'FC-980MT3HPT',
+    name: 'Classic Tourbillon',
+    brand: 'Frederique Constant', 
+  },
   corsoClocks: {
     code: 'EW2390-50D',
     brand: 'CITIZEN',
@@ -35,6 +40,13 @@ export const testProducts = {
     brand: 'CITIZEN',
     collection: 'All Clocks',
     name: 'Chandler',
+  },
+};
+
+export const testParts = {
+  part1: {
+    modelNumber: '98R266',
+    partNumber: '8601410-4983',
   },
 };
 

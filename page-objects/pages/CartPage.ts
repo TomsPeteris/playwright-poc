@@ -26,6 +26,7 @@ export class CartPage {
   readonly clearCartDialog: Locator;
   readonly clearCartDialogConfirmButton: Locator;
   readonly clearCartDialogCancelButton: Locator;
+  readonly errorMessage: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -41,6 +42,7 @@ export class CartPage {
     this.clearCartDialog = page.locator('cx-clear-cart-dialog');
     this.clearCartDialogConfirmButton = this.clearCartDialog.locator('button.btn-primary:has-text("Clear")');
     this.clearCartDialogCancelButton = this.clearCartDialog.locator('button.btn-secondary:has-text("Cancel")');
+    this.errorMessage = page.locator('.alert.alert-danger');
   }
 
   async goto() {
@@ -278,5 +280,22 @@ export class CartPage {
     if (!priceText) return 0;
     const cleanPrice = priceText.replace(/[$,\s]/g, '');
     return parseFloat(cleanPrice) || 0;
+  }
+
+  async expectErrorMessage(expectedText: string) {
+    await expect(this.errorMessage).toBeVisible({ timeout: 10000 });
+    await expect(this.errorMessage).toContainText(expectedText);
+  }
+
+  async expectProductInCart(productCode: string) {
+    const productRow = this.cartItems.filter({
+      has: this.page.locator('.cx-code', { hasText: productCode })
+    });
+    await expect(productRow).toBeVisible({ timeout: 5000 });
+  }
+
+  async expectOnlyProductInCart(productCode: string) {
+    await expect(this.cartItems).toHaveCount(1);
+    await this.expectProductInCart(productCode);
   }
 }

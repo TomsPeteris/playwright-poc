@@ -8,6 +8,7 @@ import { ProductListPage } from '../page-objects/pages/ProductListPage';
 import { QuickOrderPage } from '../page-objects/pages/QuickOrderPage';
 import { SavedCartPage } from '../page-objects/pages/SavedCartPage';
 import { SearchResultsPage } from '../page-objects/pages/SearchResultsPage';
+import { PartsSearchPage } from '../page-objects/pages/PartsSearchPage';
 import { testUsers } from './test-data';
 
 type PageObjects = {
@@ -20,6 +21,7 @@ type PageObjects = {
   searchResultsPage: SearchResultsPage;
   savedCartPage: SavedCartPage;
   quickOrderPage: QuickOrderPage;
+  partsSearchPage: PartsSearchPage;
 };
 
 // Extend base test with page objects
@@ -50,6 +52,9 @@ export const test = base.extend<PageObjects>({
   },
   quickOrderPage: async ({ page }, use) => {
     await use(new QuickOrderPage(page));
+  },
+  partsSearchPage: async ({ page }, use) => {
+    await use(new PartsSearchPage(page));
   },
 });
 
