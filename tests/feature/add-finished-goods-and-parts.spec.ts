@@ -26,6 +26,19 @@ test.describe('Add Finished Goods and Parts In Cart', () => {
     await sharedContext?.close();
   });
 
+    // Clean up cart after each test, even if test fails
+    test.afterEach(async ({}, testInfo) => {
+      const { CartPage } = await import('../../page-objects/pages/CartPage');
+      const cartPage = new CartPage(sharedPage);
+      
+      try {
+        await cartPage.goto();
+        await cartPage.removeAllItems();
+      } catch (error) {
+        console.log(`Cart cleanup failed for test "${testInfo.title}": ${error}`);
+      }
+    });
+
   // Override the page fixture to use our shared authenticated page
   test.use({
     page: async ({}, use) => {
@@ -122,11 +135,6 @@ test.describe('Add Finished Goods and Parts In Cart', () => {
       await cartPage.goto();
       await cartPage.expectOnlyProductInCart(testParts.part1.partNumber);
     });
-
-    // Step 12: Clear cart
-    await test.step('Clear cart', async () => {
-      await cartPage.removeAllItems();
-    });
   });
 
   test('should prevent adding parts when a product is in cart', async ({
@@ -213,11 +221,6 @@ test.describe('Add Finished Goods and Parts In Cart', () => {
     await test.step('Navigate to cart and verify only a product is there', async () => {
       await cartPage.goto();
       await cartPage.expectOnlyProductInCart(testProducts.bulovaAllClocks.code);
-    });
-
-    // Step 12: Clear cart
-    await test.step('Clear cart', async () => {
-      await cartPage.removeAllItems();
     });
   });
 });
