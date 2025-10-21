@@ -17,7 +17,7 @@ test.describe('Add Luxury and Finished Goods In Cart', () => {
     const loginPage = new LoginPage(sharedPage);
     
     await loginPage.goto();
-    await loginPage.login(testUsers.validUser.username, testUsers.validUser.password);
+    await loginPage.login(testUsers.luxuryGoodsUser.username, testUsers.luxuryGoodsUser.password);
     await sharedPage.waitForURL(/\/cwa\/en\/USD\/?$/);
   });
 
@@ -202,7 +202,7 @@ test.describe('Add Luxury and Finished Goods In Cart', () => {
 
     // Step 8: Verify error message about mixing luxury and non-luxury products
     await test.step('Verify error message about mixing luxury and non-luxury products', async () => {
-      await productDetailPage.expectErrorMessage('LUXURY AND NON-LUXURY PRODUCTS CANNOT BE ADDED TO THE SAME CART');
+      await productDetailPage.expectErrorMessage('LUXURY PRODUCTS SHOULD BE ORDERED SEPARATELY FROM NON-LUXURY PRODUCTS');
     });
 
     // Step 9: Navigate to cart and verify only luxury product is there

@@ -17,7 +17,7 @@ test.describe('Cart Add and Remove - Feature Tests', () => {
     const loginPage = new LoginPage(sharedPage);
     
     await loginPage.goto();
-    await loginPage.login(testUsers.validUser.username, testUsers.validUser.password);
+    await loginPage.login(testUsers.cartAddRemoveUser.username, testUsers.cartAddRemoveUser.password);
     await sharedPage.waitForURL(/\/cwa\/en\/USD\/?$/);
   });
 

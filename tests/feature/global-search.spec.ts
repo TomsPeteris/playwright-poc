@@ -16,7 +16,7 @@ test.describe('Global Search Navigation to PDP', () => {
     // Step 1: Login with valid credentials
     await test.step('Login with valid credentials', async () => {
       await loginPage.goto();
-      await loginPage.login(testUsers.validUser.username, testUsers.validUser.password);
+      await loginPage.login(testUsers.globalSearchUser.username, testUsers.globalSearchUser.password);
       await page.waitForURL(/\/cwa\/en\/USD\/?$/);
     });
 

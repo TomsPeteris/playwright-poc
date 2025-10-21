@@ -17,7 +17,7 @@ test.describe('Add Finished Goods and Parts In Cart', () => {
     const loginPage = new LoginPage(sharedPage);
     
     await loginPage.goto();
-    await loginPage.login(testUsers.validUser.username, testUsers.validUser.password);
+    await loginPage.login(testUsers.finishedGoodsPartsUser.username, testUsers.finishedGoodsPartsUser.password);
     await sharedPage.waitForURL(/\/cwa\/en\/USD\/?$/);
   });
 
@@ -127,7 +127,7 @@ test.describe('Add Finished Goods and Parts In Cart', () => {
 
     // Step 10: Verify error message appears
     await test.step('Verify error message about mixing parts and goods', async () => {
-      await productDetailPage.expectErrorMessage('FINISH GOODS AND PARTS CANNOT BE ADDED TO THE SAME CART');
+      await productDetailPage.expectErrorMessage('LUXURY PRODUCTS SHOULD BE ORDERED SEPARATELY FROM NON-LUXURY PRODUCTS OR PARTS');
     });
 
     // Step 11: Navigate to cart and verify only part is there

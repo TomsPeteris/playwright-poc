@@ -56,8 +56,35 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+    // Critical checkout test
     {
-      name: "chromium",
+      name: "checkout-critical",
+      testMatch: '**/smoke/checkout-flow.spec.ts',
+      retries: 0,
+      use: { ...devices["Desktop Chrome"] },
+    },
+
+    // Smoke tests without critical checkout test
+    {
+      name: "smoke",
+      testMatch: '**/smoke/*.spec.ts',
+      testIgnore: '**/smoke/checkout-flow.spec.ts',
+      retries: 0,
+      use: { ...devices["Desktop Chrome"] },
+    },
+
+    // Feature tests
+    {
+      name: "feature",
+      testMatch: '**/feature/*.spec.ts',
+      retries: 0,
+      use: { ...devices["Desktop Chrome"] },
+    },
+
+    // Visual tests
+    {
+      name: "visual",
+      testMatch: '**/visual/*.spec.ts',
       use: { ...devices["Desktop Chrome"] },
     },
 

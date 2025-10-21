@@ -7,6 +7,31 @@ export const testUsers = {
     username: 'wronguser@mailinator.com',
     password: 'wrongpass',
   },
+  // Dedicated users for parallel testing - each test suite uses its own user to avoid cart conflicts
+  cartAddRemoveUser: {
+    username: process.env.CART_USER || 'udumulav@outlook.com',
+    password: process.env.CART_PASSWORD || '1234',
+  },
+  luxuryGoodsUser: {
+    username: process.env.LUXURY_USER || 'ITC1_10102512@gmail.com',
+    password: process.env.LUXURY_PASSWORD || '1234',
+  },
+  savedCartUser: {
+    username: process.env.SAVED_CART_USER || 'uvr0713@gmail.com',
+    password: process.env.SAVED_CART_PASSWORD || '1234',
+  },
+  finishedGoodsPartsUser: {
+    username: process.env.PARTS_USER || 'ITC1_10103867@gmail.com',
+    password: process.env.PARTS_PASSWORD || '1234',
+  },
+  globalSearchUser: {
+    username: process.env.GLOBAL_SEARCH_USER || 'ITC1_10103866@gmail.com',
+    password: process.env.GLOBAL_SEARCH_PASSWORD || '1234',
+  },
+  quickOrderUser: {
+    username: process.env.QUICK_ORDER_USER || 'ITC1_10103826@gmail.com',
+    password: process.env.QUICK_ORDER_PASSWORD || '1234',
+  },
 };
 
 export const testProducts = {
@@ -15,7 +40,7 @@ export const testProducts = {
     name: 'American Clipper',
   },
   citizenTsuyosa: {
-    code: 'AR3103-58E',
+    code: 'EW2440-53A',
     brand: 'CITIZEN',
     collection: 'undefined TSUYOSA',
   },

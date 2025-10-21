@@ -3,7 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "playwright test",
+    "test:pipeline": "playwright test --project=checkout-critical && playwright test --project=smoke && playwright test --project=feature",
+    "test:checkout": "playwright test --project=checkout-critical",
+    "test:smoke": "playwright test --project=smoke",
+    "test:feature": "playwright test --project=feature",
+    "test:visual": "playwright test --project=visual",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
