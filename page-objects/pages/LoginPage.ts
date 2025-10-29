@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 
 export class LoginPage {
   readonly page: Page;
@@ -8,6 +8,11 @@ export class LoginPage {
   readonly passwordInput: Locator;
   readonly loginButton: Locator;
   readonly errorMessage: Locator;
+  readonly successMessage: Locator;
+  readonly forgotPasswordButton: Locator;
+  readonly forgotPasswordModal: Locator;
+  readonly forgotPasswordInput: Locator;
+  readonly forgotPasswordSubmit: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -17,6 +22,11 @@ export class LoginPage {
     this.passwordInput = this.loginForm.locator('input[formcontrolname="password"]');
     this.loginButton = this.loginForm.locator('button[type="submit"]');
     this.errorMessage = page.locator('.alert-danger');
+    this.successMessage = page.locator('.alert-success');
+    this.forgotPasswordButton = page.locator('cw-forgot-password-button button[type="button"]');
+    this.forgotPasswordModal = page.locator('cw-forgot-password-dialog');
+    this.forgotPasswordInput = page.locator('input[formcontrolname="userEmail"]');
+    this.forgotPasswordSubmit = page.locator('button:has-text("Reset")');
   }
 
   async goto() {
@@ -40,5 +50,18 @@ export class LoginPage {
   async expectErrorMessage(message: RegExp | string) {
     await expect(this.errorMessage).toBeVisible();
     await expect(this.errorMessage).toContainText(message);
+  }
+
+  async expectSuccessMessage(message: RegExp | string) {
+    await expect(this.successMessage).toBeVisible();
+    await expect(this.successMessage).toContainText(message);
+  }
+
+  async expectForgotPasswordButtonVisible() {
+    await expect(this.forgotPasswordButton).toBeVisible();
+  }
+
+  async expectForgotPasswordModalVisible() {
+    await expect(this.forgotPasswordModal).toBeVisible();
   }
 }

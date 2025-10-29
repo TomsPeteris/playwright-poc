@@ -179,7 +179,7 @@ test.describe('Saved Cart Functionality', () => {
       await cartPage.expectCartUrl();
       
       // Wait for cart to load properly
-      await page.waitForLoadState('networkidle');
+      await page.waitForLoadState('load');
       await cartPage.expectCartNotEmpty();
       
       // Verify the restored product is in the cart

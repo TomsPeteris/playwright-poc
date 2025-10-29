@@ -29,7 +29,7 @@ export class SavedCartPage {
 
   async goto() {
     await this.page.goto('/my-account/saved-carts');
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState('load');
   }
 
   async navigateToSavedCarts() {
