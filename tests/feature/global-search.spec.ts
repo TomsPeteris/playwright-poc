@@ -88,7 +88,33 @@ test.describe('Global Search Navigation to PDP', () => {
       await expect(searchInput).toHaveValue('');
     });
 
-    // Step 8: Test invalid search input and verify no results message
+    // Step 8: Verify suggestions appear only after entering 3 characters
+    await test.step('Suggestions should appear only after entering 3 characters (start with "c")', async () => {
+      const searchInput = page.getByRole('textbox', { name: /search/i });
+      const suggestions = page.locator('ul[role="listbox"].products');
+
+      // Type 1st character: no suggestions
+      await searchInput.fill('c');
+      await page.waitForTimeout(500);
+      await expect(suggestions).toBeHidden({ timeout: 2000 });
+
+      // Type 2nd character: still no suggestions
+      await searchInput.fill('ci');
+      await page.waitForTimeout(500);
+      await expect(suggestions).toBeHidden({ timeout: 2000 });
+
+      // Type 3rd character: suggestions should appear
+      await searchInput.fill('cit');
+      await page.waitForTimeout(1000);
+      await expect(suggestions).toBeVisible({ timeout: 5000 });
+
+      // Cleanup: clear input
+      const clearButton = page.locator('button.reset[aria-label="Reset"]');
+      await clearButton.click();
+      await expect(searchInput).toHaveValue('');
+    });
+
+    // Step 9: Test invalid search input and verify no results message
     await test.step('Enter invalid input and verify no results message', async () => {
       const searchInput = page.getByRole('textbox', { name: /search/i });
       await searchInput.fill('NONEXISTS');
@@ -97,7 +123,16 @@ test.describe('Global Search Navigation to PDP', () => {
       await expect(noResultsMessage).toBeVisible({ timeout: 5000 });
     });
 
-    // Step 9: Clear search input after invalid search
+    //Step 10: Search on Enter key
+    await test.step('Search on Enter navigates to search page and product is visible', async () => {
+      const searchInput = page.getByRole('textbox', { name: /search/i });
+      await searchInput.fill(SEARCH_TERM);
+      await searchInput.press('Enter');
+      await searchResultsPage.expectSearchResultsLoaded();
+      await searchResultsPage.expectProductTileVisible(SEARCH_TERM);
+    });
+
+    // Step 11: Clear search input after invalid search
     await test.step('Clear search input after invalid search', async () => {
       const clearButton = page.locator('button.reset[aria-label="Reset"]');
       await clearButton.click();
@@ -107,7 +142,7 @@ test.describe('Global Search Navigation to PDP', () => {
       await expect(searchInput).toHaveValue('');
     });
 
-    // Step 10: Test valid product SKU suggestions dropdown
+    // Step 12: Test valid product SKU suggestions dropdown
     await test.step('Start typing valid product SKU and verify suggestions dropdown', async () => {
       const searchInput = page.getByRole('textbox', { name: /search/i });
       await searchInput.fill('AT2');
@@ -124,7 +159,7 @@ test.describe('Global Search Navigation to PDP', () => {
       expect(count).toBeGreaterThan(0);
     });
 
-    // Step 11: Select product from suggestions and navigate to PDP
+    // Step 13: Select product from suggestions and navigate to PDP
     await test.step('Enter product SKU and select from suggestions', async () => {
       const searchInput = page.getByRole('textbox', { name: /search/i });
       // Clear previous input and enter new SKU
@@ -138,7 +173,7 @@ test.describe('Global Search Navigation to PDP', () => {
       await productSuggestion.click();
     });
 
-    // Step 12: Verify navigation to PDP with correct product
+    // Step 14: Verify navigation to PDP with correct product
     await test.step('Verify navigation to PDP with correct product', async () => {
       await expect(page).toHaveURL(/\/product\//);
       await productDetailPage.expectProductDetailPageLoaded();
@@ -147,31 +182,31 @@ test.describe('Global Search Navigation to PDP', () => {
       await productDetailPage.expectProductCode(testProducts.chandlerClocks.code);
     });
 
-    // Step 13: Navigate back to homepage for final search test
+    // Step 15: Navigate back to homepage for final search test
     await test.step('Navigate back to homepage for final search test', async () => {
       await homePage.goto();
       await expect(page).toHaveURL(/\/cwa\/en\/USD\/?$/);
     });
 
-    // Step 14: Search for product using global search and submit
+    // Step 16: Search for product using global search and submit
     await test.step('Search for product using global search', async () => {
       await homePage.searchProductAndSubmit(SEARCH_TERM);
       await expect(page).toHaveURL(EXPECTED_SEARCH_URL_PATTERN);
     });
 
-    // Step 15: Verify search results are displayed
+    // Step 17: Verify search results are displayed
     await test.step('Verify search results are displayed', async () => {
       await searchResultsPage.expectSearchResultsLoaded();
       await searchResultsPage.expectProductTileVisible(SEARCH_TERM);
     });
 
-    // Step 16: Select product from search results
+    // Step 18: Select product from search results
     await test.step('Select product from search results', async () => {
       await searchResultsPage.selectProductByCode(SEARCH_TERM);
       await productDetailPage.expectProductDetailPageLoaded();
     });
 
-    // Step 17: Verify product code on PDP matches search term
+    // Step 19: Verify product code on PDP matches search term
     await test.step('Verify product code on PDP matches search term', async () => {
       await productDetailPage.expectProductCode(SEARCH_TERM);
       
