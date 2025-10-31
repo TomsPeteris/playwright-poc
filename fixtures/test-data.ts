@@ -89,11 +89,6 @@ export const quickOrderProducts = [
 ];
 
 export const checkoutData = {
-  orderCancelDate: {
-    year: '2026',
-    dayLabel: 'Wednesday, April 1,',
-    dayText: '1',
-  },
   poNumber: 'TestOrder',
 };
 

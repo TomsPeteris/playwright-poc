@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 
 export class CheckoutPage {
   readonly page: Page;
@@ -10,6 +10,7 @@ export class CheckoutPage {
   readonly reviewSection: Locator;
   readonly orderCancelDateInput: Locator;
   readonly yearSelect: Locator;
+  readonly monthSelect: Locator;
   readonly poNumberInput: Locator;
   readonly termsAndConditionsCheckbox: Locator;
   readonly thankYouMessage: Locator;
@@ -24,6 +25,7 @@ export class CheckoutPage {
     this.reviewSection = page.locator('cx-review-submit');
     this.orderCancelDateInput = page.getByRole('textbox', { name: 'Order Cancel Date' });
     this.yearSelect = page.getByLabel('Select year');
+    this.monthSelect = page.locator('select[aria-label="Select month"]');
     this.poNumberInput = page.getByRole('textbox', { name: 'P.O. Number' });
     this.termsAndConditionsCheckbox = page.locator('input[formcontrolname="termsAndConditions"]');
     this.thankYouMessage = page.locator('cw-order-confirmation-thank-you-message');
@@ -58,13 +60,31 @@ export class CheckoutPage {
     await this.page.waitForURL(/\/checkout\/delivery-mode/);
   }
 
-  async fillDeliveryModeDetails(year: string, dayLabel: string, dayText: string, poNumber: string) {
-    // Set order cancel date
+  async fillDeliveryModeDetails(poNumber: string) {
+    const today = new Date();
+    // Select 3 months from the current day
+    const futureDate = new Date(today);
+    futureDate.setMonth(futureDate.getMonth() + 3);
+
+    const year = futureDate.getFullYear().toString();
+    const monthValue = (futureDate.getMonth() + 1).toString();
+    const day = futureDate.getDate().toString();
+    const weekday = futureDate.toLocaleString('en-US', { weekday: 'long' });
+    const monthFull = futureDate.toLocaleString('en-US', { month: 'long' });
+    const dayLabel = `${weekday}, ${monthFull} ${day}, ${year}`;
+
     await this.orderCancelDateInput.waitFor({ state: 'visible' });
     await this.orderCancelDateInput.click();
+
     await this.yearSelect.selectOption(year);
-    // Click the specific day in the calendar
-    await this.page.getByLabel(dayLabel).getByText(dayText).click();
+    await this.monthSelect.selectOption(monthValue);
+
+    // Wait for the date grid to refresh
+    await this.page.waitForTimeout(300);
+    // Locate the correct grid cell
+    const dayCell = this.page.locator(`div[role="gridcell"][aria-label="${dayLabel}"] div`);
+
+    await dayCell.first().click();
     
     // Fill PO number
     await this.poNumberInput.waitFor({ state: 'visible' });

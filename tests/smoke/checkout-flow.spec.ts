@@ -39,9 +39,6 @@ test.describe('Checkout Flow - Critical Path', () => {
     
     await test.step('Checkout Step 2: Delivery Mode & Order Details', async () => {
       await checkoutPage.fillDeliveryModeDetails(
-        checkoutData.orderCancelDate.year,
-        checkoutData.orderCancelDate.dayLabel,
-        checkoutData.orderCancelDate.dayText,
         checkoutData.poNumber
       );
       await checkoutPage.continueFromDeliveryMode();
