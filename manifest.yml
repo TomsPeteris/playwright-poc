@@ -1,0 +1,10 @@
+applications:
+    - name: citizen-playwright
+      docker:
+          image: tomspeteris/citizen-playwright:latest
+      memory: 2G
+      disk_quota: 4G
+      command: npx playwright test --ui --ui-port=$PORT --ui-host=0.0.0.0
+      health-check-type: process
+      timeout: 180
+      random-route: false
