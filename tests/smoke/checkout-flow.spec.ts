@@ -1,7 +1,24 @@
+import { Page } from '@playwright/test';
 import { authenticatedTest as test } from '../../fixtures/custom-fixtures';
 import { checkoutData, testProducts } from '../../fixtures/test-data';
 
 test.describe('Checkout Flow - Critical Path', () => {
+
+  let sharedPage: Page;
+
+  // Clean up cart after each test, even if test fails
+  test.afterEach(async ({}, testInfo) => {
+    const { CartPage } = await import('../../page-objects/pages/CartPage');
+    const cartPage = new CartPage(sharedPage);
+    
+    try {
+      await cartPage.goto();
+      await cartPage.removeAllItems();
+    } catch (error) {
+      console.log(`Cart cleanup failed for test "${testInfo.title}": ${error}`);
+    }
+  });
+
   test('should complete full checkout journey', async ({ 
     page, 
     homePage,
@@ -10,6 +27,7 @@ test.describe('Checkout Flow - Critical Path', () => {
     cartPage, 
     checkoutPage 
   }) => {
+    sharedPage = page;
     await test.step('Navigate to product through menu', async () => {
       await homePage.navigateToBrand(testProducts.bulovaAllClocks.brand);
       await homePage.navigateToCollection(testProducts.bulovaAllClocks.collection);

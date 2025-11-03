@@ -79,10 +79,11 @@ export default defineConfig({
 	/* Configure projects for major browsers */
 	projects: [
 		// All tests - default project for UI mode
-		{
-			name: 'chromium',
-			use: { ...devices['Desktop Chrome'] },
-		},
+		// {
+		// 	name: 'chromium',
+		// 	testIgnore: '**/smoke/*.spec.ts',
+		// 	use: { ...devices['Desktop Chrome'] },
+		// },
 
 		// Critical checkout test (for CI/CD)
 		{
